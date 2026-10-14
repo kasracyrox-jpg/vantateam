@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANTA | STREET EMPIRE — نسخه نهایی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none
+        }
+
+        :root {
+            --bg: #050507;
+            --p: #0d0d11;
+            --t: #f5f5f7;
+            --m: #9a9aa8;
+            --a: #ff2d55
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: Vazirmatn, sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            overflow-x: hidden
+        }
+
+        ::selection {
+            background: var(--a);
+            color: #fff
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(#ff2d55, #550a18);
+            border-radius: 99px
+        }
+
+        /* cursor */
+        #cur {
+            position: fixed;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--a);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            transition: width.2s, height.2s;
+            mix-blend-mode: screen
+        }
+
+        #curDot {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: var(--a);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%)
+        }
+
+        #cur.big {
+            width: 60px;
+            height: 60px;
+            background: #ff2d5522
+        }
+
+        /* boot */
+        #boot {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: #030304;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity.6s;
+            cursor: pointer
+        }
+
+        #boot.done {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden
+        }
+
+        .boot-box {
+            text-align: center
+        }
+
+        .boot-logo {
+            font-size: 90px;
+            font-weight: 900;
+            letter-spacing: 14px;
+            animation: glitch 2s infinite
+        }
+
+        .boot-logo b {
+            color: var(--a);
+            text-shadow: 0 0 60px var(--a)
+        }
+
+        @keyframes glitch {
+
+            0%,
+            92%,
+            100% {
+                transform: none;
+                filter: none
+            }
+
+            93% {
+                transform: translate(-4px, 2px) skewX(4deg)
+            }
+
+            95% {
+                transform: translate(4px, -2px)
+            }
+
+            97% {
+                filter: hue-rotate(90deg)
+            }
+        }
+
+        .boot-bar {
+            width: min(480px, 84vw);
+            height: 3px;
+            background: #ffffff12;
+            margin: 22px auto 10px;
+            overflow: hidden;
+            border-radius: 99px
+        }
+
+        .boot-bar i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--a), #fff, var(--a));
+            background-size: 200% 100%;
+            animation: sh 1s linear infinite
+        }
+
+        @keyframes sh {
+            to {
+                background-position: 200% 0
+            }
+        }
+
+        /* bg */
+        #bg {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1920&q=60') center/cover;
+            filter: brightness(.14) grayscale(60%) contrast(1.15)
+        }
+
+        #bg:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #050507f5, #05050766 45%, #050507), radial-gradient(700px 400px at 50% 0%, #ff2d5522, transparent)
+        }
+
+        #rain {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: .5
+        }
+
+        .vig {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 55%, #000a)
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 90;
+            background: #050507d9;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #ffffff14
+        }
+
+        .nav-in {
+            max-width: 1300px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 22px
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900
+        }
+
+        .logo b {
+            color: var(--a);
+            text-shadow: 0 0 20px var(--a)
+        }
+
+        .links {
+            display: flex;
+            gap: 18px;
+            font-size: 13px;
+            color: var(--m);
+            font-weight: 700
+        }
+
+        .links a {
+            color: inherit;
+            text-decoration: none;
+            position: relative
+        }
+
+        .links a:hover {
+            color: #fff
+        }
+
+        .links a:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--a);
+            transition: .3s
+        }
+
+        .links a:hover:after {
+            width: 100%
+        }
+
+        .btn {
+            border: none;
+            font-family: inherit;
+            font-weight: 900;
+            padding: 14px 28px;
+            cursor: pointer;
+            transition: .25s;
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)
+        }
+
+        .b-a {
+            background: linear-gradient(135deg, #ff2d55, #c40f3c);
+            color: #fff;
+            box-shadow: 0 0 30px #ff2d5544
+        }
+
+        .b-a:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 60px #ff2d5588
+        }
+
+        .b-g {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #ffffff2e
+        }
+
+        /* hero */
+        .hero {
+            max-width: 1300px;
+            margin: auto;
+            padding: 160px 22px 20px;
+            display: grid;
+            grid-template-columns: 1.05fr.95fr;
+            gap: 36px;
+            align-items: center;
+            min-height: 100vh
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 2px solid var(--a);
+            color: var(--a);
+            padding: 7px 18px;
+            font-weight: 900;
+            transform: rotate(-3deg);
+            letter-spacing: 3px;
+            font-size: 12px;
+            box-shadow: 0 0 20px #ff2d5544, inset 0 0 20px #ff2d5522;
+            animation: pulse 2s infinite
+        }
+
+        @keyframes pulse {
+            50% {
+                box-shadow: 0 0 50px #ff2d5599
+            }
+        }
+
+        h1 {
+            font-size: clamp(44px, 7vw, 92px);
+            font-weight: 900;
+            line-height: 1.12;
+            margin: 16px 0
+        }
+
+        h1.red {
+            color: var(--a);
+            text-shadow: 0 0 60px #ff2d55aa
+        }
+
+        h1.stroke {
+            -webkit-text-stroke: 2px #fff;
+            color: transparent
+        }
+
+        h1.glow {
+            color: #fff;
+            text-shadow: 0 0 30px #ffffff66
+        }
+
+        .sub {
+            color: var(--m);
+            line-height: 2;
+            max-width: 560px
+        }
+
+        .hbtns {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+            flex-wrap: wrap
+        }
+
+        .hstats {
+            display: flex;
+            gap: 28px;
+            margin-top: 24px;
+            flex-wrap: wrap
+        }
+
+        .hstat b {
+            font-size: 30px;
+            display: block;
+            font-variant-numeric: tabular-nums
+        }
+
+        .hstat span {
+            font-size: 12px;
+            color: var(--m)
+        }
+
+        .hstat b i {
+            color: var(--a);
+            font-style: normal
+        }
+
+        /* terminal card */
+        .term {
+            background: #0a0a0ecc;
+            border: 1px solid #ffffff1e;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px #000, inset 0 1px 0 #ffffff14;
+            backdrop-filter: blur(10px)
+        }
+
+        .term-h {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #ffffff10;
+            align-items: center
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%
+        }
+
+        .term-b {
+            padding: 18px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 2;
+            min-height: 280px;
+            direction: ltr;
+            text-align: left
+        }
+
+        .term-b.g {
+            color: #22c55e
+        }
+
+        .term-b.r {
+            color: var(--a)
+        }
+
+        .term-b.w {
+            color: #fff
+        }
+
+        .term-b.d {
+            color: #555
+        }
+
+        .dlzone {
+            padding: 16px;
+            border-top: 1px solid #ffffff10
+        }
+
+        .big {
+            background: linear-gradient(135deg, #ff2d55, #a30c2e);
+            color: #fff;
+            border: none;
+            font-family: inherit;
+            font-weight: 900;
+            font-size: 19px;
+            padding: 18px;
+            width: 100%;
+            cursor: pointer;
+            clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+            transition: .2s
+        }
+
+        .big:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 50px #ff2d5588
+        }
+
+        .bar {
+            height: 8px;
+            background: #ffffff10;
+            margin-top: 12px;
+            display: none;
+            overflow: hidden
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--a), #fff)
+        }
+
+        .marq {
+            background: var(--a);
+            color: #fff;
+            padding: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            font-weight: 900;
+            transform: rotate(-1.2deg) scale(1.02);
+            box-shadow: 0 10px 40px #ff2d5555;
+            margin: 30px 0
+        }
+
+        .marq div {
+            display: inline-block;
+            animation: mq 18s linear infinite
+        }
+
+        @keyframes mq {
+            to {
+                transform: translateX(50%)
+            }
+        }
+
+        .wrap {
+            max-width: 1300px;
+            margin: auto;
+            padding: 20px 22px
+        }
+
+        .sec {
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 900
+        }
+
+        .sec span {
+            color: var(--a)
+        }
+
+        .sub2 {
+            color: var(--m);
+            margin: 8px 0 20px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px
+        }
+
+        .card {
+            background: linear-gradient(180deg, #101016, #08080b);
+            border: 1px solid #ffffff12;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: .3s
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--a);
+            box-shadow: 0 20px 60px #ff2d5533
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--a), transparent);
+            opacity: 0;
+            transition: .3s
+        }
+
+        .card:hover:before {
+            opacity: 1
+        }
+
+        .card.n {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            font-size: 90px;
+            font-weight: 900;
+            color: #ffffff06;
+            line-height: 1
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: .8s
+        }
+
+        .reveal.vis {
+            opacity: 1;
+            transform: none
+        }
+
+        .gangs {
+            background: #0a0a0d;
+            border: 1px solid var(--a);
+            padding: 8px 22px;
+            position: relative
+        }
+
+        .gangs:before {
+            content: 'CLASSIFIED';
+            position: absolute;
+            top: -13px;
+            right: 20px;
+            background: var(--a);
+            font-size: 11px;
+            font-weight: 900;
+            padding: 3px 14px;
+            letter-spacing: 3px
+        }
+
+        .grow {
+            display: flex;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px dashed #ffffff1c;
+            align-items: center
+        }
+
+        .grow:last-child {
+            border: none
+        }
+
+        .avt {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: #16161c;
+            border: 1px solid #ffffff1c;
+            flex-shrink: 0
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        .step {
+            background: var(--p);
+            border: 1px solid #ffffff12;
+            padding: 30px;
+            text-align: center;
+            position: relative
+        }
+
+        .step:hover {
+            border-color: var(--a)
+        }
+
+        .step.num {
+            font-size: 60px;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px #ffffff33
+        }
+
+        .faq {
+            border: 1px solid #ffffff12;
+            border-right: 4px solid var(--a);
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background: #0c0c10;
+            transition: .2s
+        }
+
+        .faq:hover {
+            background: #121218
+        }
+
+        .faq p {
+            display: none;
+            color: var(--m);
+            margin-top: 10px
+        }
+
+        .faq.open p {
+            display: block
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #1a050c, #0a0a0d 60%);
+            border: 1px solid var(--a);
+            padding: 60px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0
+        }
+
+        .cta:before {
+            content: 'VANTA';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 200px;
+            font-weight: 900;
+            color: #ffffff04;
+            letter-spacing: 20px
+        }
+
+        footer {
+            border-top: 1px solid #ffffff12;
+            padding: 36px;
+            text-align: center;
+            color: var(--m);
+            font-size: 12px
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #fff;
+            color: #000;
+            padding: 14px 30px;
+            font-weight: 900;
+            z-index: 300;
+            transition: .4s;
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)
+        }
+
+        #toast.show {
+            transform: translateX(-50%)
+        }
+
+        @media(max-width:950px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto
+            }
+
+            .steps {
+                grid-template-columns: 1fr
+            }
+
+            .links {
+                display: none
+            }
+
+            * {
+                cursor: auto
+            }
+
+            #cur,
+            #curDot {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cur"></div>
+    <div id="curDot"></div>
+    <div id="bg"></div><canvas id="rain"></canvas>
+    <div class="vig"></div>
+    <div id="boot">
+        <div class="boot-box">
+            <div class="boot-logo">VA<b>N</b>TA</div>
+            <div style="letter-spacing:6px;font-size:11px;color:#9a9aa8">STREET EMPIRE • FINAL BOSS EDITION</div>
+            <div class="boot-bar"><i id="bootBar"></i></div>
+            <div id="bootPct" style="font-weight:900;font-size:20px">0%</div>
+            <div id="bootMsg" style="font-family:monospace;font-size:12px;color:#666">connecting to the streets...</div>
+        </div>
+    </div>
+    <nav>
+        <div class="nav-in">
+            <div class="logo">VA<b>N</b>TA</div>
+            <div class="links"><a href="#dl">دانلود</a><a href="#city">شهر</a><a href="#gangs">گنگ‌ها</a><a
+                    href="#steps">نصب</a><a href="#faq">سوالات</a></div>
+            <div style="margin-right:auto;display:flex;gap:10px;align-items:center"><span
+                    style="font-size:12px;color:#22c55e">● <span id="liveN">12,408</span> آنلاین</span><button
+                    class="btn b-a" style="padding:11px 22px;font-size:13px"
+                    onclick="document.getElementById('dl').scrollIntoView({behavior:'smooth'})">🔥 ورود</button></div>
+        </div>
+    </nav>
+    <div class="hero">
+        <div>
+            <div class="stamp">★ MOST WANTED • v10 FINAL ★</div>
+            <h1>اینجا<br><span class="stroke">قانون نداره.</span><br><span class="red">پادشاه داره.</span> 👑</h1>
+            <p class="sub">تهران District سقوط کرده. ۱۴۲ گنگ سر قلمرو می‌جنگن. پلیس با هلیکوپتر دنبالت می‌کنه. یا فرمان
+                می‌دی... یا دفن می‌شی. انتخاب با توئه.</p>
+            <div class="hbtns"><button class="btn b-a" style="font-size:17px" onclick="startDL()">⬇ دانلود
+                    رایگان</button><button class="btn b-g" onclick="copyIP()">📋 IP سرور</button></div>
+            <div class="hstats">
+                <div class="hstat"><b><i>2.4M</i></b><span>گنگستر ثبت‌شده</span></div>
+                <div class="hstat"><b id="c1">0</b><span>آنلاین الآن 🔥</span></div>
+                <div class="hstat"><b>⭐4.9</b><span>از 58K نظر</span></div>
+            </div>
+        </div>
+        <div class="term" id="dl">
+            <div class="term-h"><span class="dot" style="background:#ff5f57"></span><span class="dot"
+                    style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span
+                    style="margin-right:auto;font-family:monospace;font-size:12px;color:#666">vanta@streets:~</span>
+            </div>
+            <div class="term-b" id="term"></div>
+            <div class="dlzone">
+                <button class="big" id="dlBtn" onclick="startDL()">⬇ DOWNLOAD VANTA-GANG-v10.exe — 85MB</button>
+                <div style="display:flex;gap:8px"><button class="btn b-g" style="flex:1;font-size:12px"
+                        onclick="copyIP()">IP</button><button class="btn b-g" style="flex:1;font-size:12px"
+                        onclick="toast('وب‌اپ موبایل به‌زودی 📱')">موبایل</button><button class="btn b-g"
+                        style="flex:1;font-size:12px"
+                        onclick="document.getElementById('steps').scrollIntoView({behavior:'smooth'})">آموزش</button>
+                </div>
+                <div class="bar" id="barW"><i id="barI"></i></div>
+                <div id="dlMsg" style="font-size:12px;color:#9a9aa8;margin-top:8px;font-family:monospace"></div>
+            </div>
+        </div>
+    </div>
+    <div class="marq">
+        <div><span>🔫 GANG WAR هر شب ۲۲:۰۰ — جایزه $1M &nbsp;•&nbsp; </span><span>🏦 هایست امشب: PACIFIC BANK
+                &nbsp;•&nbsp; </span><span>🚗 درگ نیاوران — جایزه GTR &nbsp;•&nbsp; </span><span>👑 KINGS دنبال عضو جدید
+                &nbsp;•&nbsp; </span><span>🔫 GANG WAR هر شب ۲۲:۰۰ — جایزه $1M &nbsp;•&nbsp; </span><span>🏦 هایست امشب:
+                PACIFIC BANK &nbsp;•&nbsp; </span></div>
+    </div>
+    <div class="wrap" id="city">
+        <div class="sec reveal">شهر مال <span>کیه؟</span></div>
+        <p class="sub2 reveal">سه قلمرو. سه سرنوشت.</p>
+        <div class="grid">
+            <div class="card reveal">
+                <div class="n">01</div>
+                <div style="font-size:50px">🌃</div>
+                <h3>تهران District</h3>
+                <p style="color:#9a9aa8;font-size:13px">میلاد، ونک، تجریش. قلب تپنده جرم. پلیس اینجا شوخی نداره.</p>
+                <div style="margin-top:12px;font-size:12px">🔥 987 نفر داخلن • <b style="color:#ff2d55">شلوغ</b></div>
+            </div>
+            <div class="card reveal">
+                <div class="n">02</div>
+                <div style="font-size:50px">🏝️</div>
+                <h3>کیش — پول‌شویی</h3>
+                <p style="color:#9a9aa8;font-size:13px">ویلا، قایق، کازینو. جایی که پول کثیف تمیز می‌شه.</p>
+                <div style="margin-top:12px;font-size:12px">😎 289 نفر • <b>آروم</b></div>
+            </div>
+            <div class="card reveal">
+                <div class="n">03</div>
+                <div style="font-size:50px">🏔️</div>
+                <h3>شمال — پیست مرگ</h3>
+                <p style="color:#9a9aa8;font-size:13px">دریفت، درگ، شرط‌بندی. پیکان جوانان اینجا افسانه‌ست.</p>
+                <div style="margin-top:12px;font-size:12px">🏎️ 512 نفر • <b style="color:#ff2d55">داغ</b></div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap" id="gangs">
+        <div class="sec reveal">تابلوی <span>اعلانات خیابون</span> 🔫</div>
+        <p class="sub2 reveal">قدرت دست کیه؟ آمار زنده.</p>
+        <div class="gangs reveal">
+            <div class="grow">
+                <div class="avt">👑</div>
+                <div style="flex:1"><b>Tehran Kings</b><br><small style="color:#9a9aa8">142 عضو • 18 قلمرو • رئیس:
+                        Arash_King</small></div><b style="color:#ff2d55">$48.2M</b>
+            </div>
+            <div class="grow">
+                <div class="avt">🦉</div>
+                <div style="flex:1"><b>Night Owls</b><br><small style="color:#9a9aa8">98 عضو • 11 قلمرو</small></div>
+                <b>$39.7M</b>
+            </div>
+            <div class="grow">
+                <div class="avt">🏎️</div>
+                <div style="flex:1"><b>Shomal Racers</b><br><small style="color:#9a9aa8">76 عضو • پیست شمال</small>
+                </div><b>$31.1M</b>
+            </div>
+            <div class="grow">
+                <div class="avt">👮</div>
+                <div style="flex:1"><b>فرماندهی انتظامی — استخدام باز!</b><br><small style="color:#9a9aa8">حقوق $2,400 •
+                        ماشین + اسلحه سازمانی</small></div><button class="btn b-a"
+                    style="padding:9px 20px;font-size:12px" onclick="toast('درخواستت به به فرماندهی ارسال شد 👮')">عضو
+                    شو</button>
+            </div>
+        </div>
+    </div>
+    <div class="wrap" id="steps">
+        <div class="sec reveal">ورود تو <span>۳ حرکت</span></div>
+        <p class="sub2 reveal">۵ دقیقه بعد تو خیابونی.</p>
+        <div class="steps">
+            <div class="step reveal">
+                <div class="num">01</div>
+                <div style="font-size:44px">🎮</div>
+                <h3>GTA V</h3>
+                <p style="color:#9a9aa8;font-size:13px">اورجینال استیم / اپیک / راک‌استار</p>
+            </div>
+            <div class="step reveal">
+                <div class="num">02</div>
+                <div style="font-size:44px">⬇</div>
+                <h3>دانلود</h3>
+                <p style="color:#9a9aa8;font-size:13px">دکمه بالا — ۸۵ مگ — خودش نصب می‌کنه</p>
+            </div>
+            <div class="step reveal">
+                <div class="num">03</div>
+                <div style="font-size:44px">🔥</div>
+                <h3>حکومت</h3>
+                <p style="color:#9a9aa8;font-size:13px">F8 → اون IP → بزن بریم</p>
+            </div>
+        </div>
+    </div>
+    <div class="wrap" id="faq">
+        <div class="sec reveal">حرف <span>آخر</span></div>
+        <div style="margin-top:14px" id="fq"></div>
+        <div class="cta reveal">
+            <h2 style="font-size:clamp(26px,4vw,44px);font-weight:900;position:relative">آماده‌ای پادشاه شی؟ 👑</h2>
+            <p style="color:#9a9aa8;position:relative">۲.۴ میلیون نفر منتظرتن. شهر صبر نمی‌کنه.</p><br><button
+                class="btn b-a" style="font-size:19px;padding:18px 60px;position:relative" onclick="startDL()">🔥 همین
+                الآن — رایگان</button>
+        </div>
+    </div>
+    <footer>VANTA STREET EMPIRE © 2026 • discord.gg/vanta • ساخته‌شده برای خیابون 🩸</footer>
+    <div id="toast"></div>
+    <script>
+        /* boot */
+        (function () { var b = document.getElementById('boot'), bar = document.getElementById('bootBar'), m = document.getElementById('bootMsg'), pc = document.getElementById('bootPct'), d = false; function fin() { if (d) return; d = true; bar.style.width = '100%'; pc.textContent = '100%'; setTimeout(function () { b.classList.add('done'); setTimeout(function () { b.style.display = 'none' }, 600) }, 250) } b.onclick = fin; var p = 0; var iv = setInterval(function () { p += 10 + Math.random() * 14; if (p >= 100) { clearInterval(iv); fin(); return } bar.style.width = p + '%'; pc.textContent = Math.floor(p) + '%'; m.textContent = ['connecting to the streets...', 'loading turf...', 'arming gangs...', 'ready'][Math.min(3, Math.floor(p / 28))] }, 240); setTimeout(fin, 2600) })();
+        /* cursor */
+        var cur = document.getElementById('cur'), dot = document.getElementById('curDot'); document.addEventListener('mousemove', function (e) { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' }); document.querySelectorAll('button,.card,.faq').forEach(function (b) { b.addEventListener('mouseenter', function () { cur.classList.add('big') }); b.addEventListener('mouseleave', function () { cur.classList.remove('big') }) });
+        /* rain */
+        var rc = document.getElementById('rain'), rx = rc.getContext('2d'), drops = []; function rs() { rc.width = innerWidth; rc.height = innerHeight } rs(); addEventListener('resize', rs); for (var i = 0; i < 90; i++)drops.push({ x: Math.random() * 2000, y: Math.random() * 1200, l: 10 + Math.random() * 20, s: 8 + Math.random() * 10 }); (function an() { rx.clearRect(0, 0, rc.width, rc.height); rx.strokeStyle = '#ffffff18'; rx.beginPath(); drops.forEach(function (d) { rx.moveTo(d.x, d.y); rx.lineTo(d.x - 3, d.y + d.l); d.y += d.s; if (d.y > rc.height) { d.y = -20; d.x = Math.random() * rc.width } }); rx.stroke(); requestAnimationFrame(an) })();
+        /* terminal typing */
+        var lines = ['<span class="d"># VANTA secure channel...</span>', '<span class="g">✔</span> <span class="w">connected: tehran-node-01 (16ms)</span>', '<span class="g">✔</span> <span class="w">2,412,880 citizens verified</span>', '<span class="g">✔</span> <span class="w">142 gangs • 400 cars • 3 cities loaded</span>', '<span class="r">● LIVE:</span> <span class="w">987/1024 in Tehran District</span>', '<span class="d">$ _</span> <span class="w">press DOWNLOAD to enter_</span>']; var ti = 0; var tIv = setInterval(function () { if (ti < lines.length) { document.getElementById('term').innerHTML += lines[ti] + '<br>'; ti++ } else clearInterval(tIv) }, 450);
+        /* counters */
+        var c0 = 0; var cIv = setInterval(function () { c0 += 37; if (c0 >= 12408) { c0 = 12408; clearInterval(cIv) } document.getElementById('c1').textContent = c0.toLocaleString('en-US'); document.getElementById('liveN').textContent = c0.toLocaleString('en-US') }, 40);
+        function toast(t) { var e = document.getElementById('toast'); e.textContent = t; e.classList.add('show'); setTimeout(function () { e.classList.remove('show') }, 2500) }
+        function copyIP() { try { navigator.clipboard.writeText('connect play.vanta.gg:30120') } catch (e) { } toast('📋 کپی شد: play.vanta.gg:30120') }
+        function startDL() { var w = document.getElementById('barW'), i = document.getElementById('barI'), m = document.getElementById('dlMsg'), b = document.getElementById('dlBtn'); w.style.display = 'block'; b.disabled = true; document.getElementById('dl').scrollIntoView({ behavior: 'smooth', block: 'center' }); var p = 0; var iv = setInterval(function () { p += 8 + Math.random() * 12; if (p >= 100) { clearInterval(iv); i.style.width = '100%'; m.innerHTML = '<span style="color:#22c55e">✔ DOWNLOAD STARTED:</span> VANTA-GANG-v10.exe — اجرا کن و وارد شو 👑'; b.textContent = '⬇ دانلود مجدد'; b.disabled = false; var a = document.createElement('a'); a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('VANTA GANG v10%0AF8 -> connect play.vanta.gg:30120'); a.download = 'VANTA-GANG-v10.txt'; document.body.appendChild(a); a.click(); a.remove(); return } i.style.width = p + '%'; m.textContent = 'receiving... ' + Math.floor(p) + '% — 14MB/s — encrypted' }, 280) }
+        document.getElementById('fq').innerHTML = [['پول می‌خواد؟', 'نه. رایگانه رفیق. فقط VIP صف رو رد می‌کنه.'], ['بن می‌شم؟', 'نه. روی سرور VANTA بازی می‌کنی، اکانتت سیفه.'], ['سیستم ضعیف؟', 'تاکسی و مکانیکی از صفر شروع کن — همه از همین‌جا لژند شدن.'], ['چیت؟', 'بزنی پرمابنی. Sentinel بی‌رحمه.']].map(function (f) { return '<div class="faq reveal" onclick="this.classList.toggle(\'open\')"><b>' + f[0] + '</b><p>' + f[1] + '</p></div>' }).join('');
+        var io = new IntersectionObserver(function (e) { e.forEach(function (v) { if (v.isIntersecting) v.target.classList.add('vis') }) }, { threshold: .12 }); document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el) });
+    </script>
+</body>
+
+</html>
